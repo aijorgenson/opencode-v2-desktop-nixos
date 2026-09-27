@@ -1,0 +1,13 @@
+{
+  "version": "2.0.18",
+  "sources": {
+    "x86_64-linux": {
+      "url": "https://opencode.ai/files/bin/2.0.18/opencode-desktop-linux-x86_64.AppImage",
+      "hash": "sha256-dUagnzk+ZAQfNXqtZOMTZRc+EZzptpmXtY2xtrE+LPY="
+    },
+    "aarch64-linux": {
+      "url": "https://opencode.ai/files/bin/2.0.18/opencode-desktop-linux-arm64.AppImage",
+      "hash": "sha256-tV/+tRnypl2sYIt+IpJEa3d67VGboefo5m5vQqQ1+qQ="
+    }
+  }
+}
