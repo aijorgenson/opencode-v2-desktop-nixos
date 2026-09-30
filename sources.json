@@ -1,13 +1,13 @@
 {
-  "version": "2.0.19",
+  "version": "2.0.20",
   "sources": {
     "x86_64-linux": {
-      "url": "https://opencode.ai/files/bin/2.0.19/opencode-desktop-linux-x86_64.AppImage",
-      "hash": "sha256-vMlP6EcdM4b5FL2n0w14/pqX8OY1sRj+KMozgN0EQ08="
+      "url": "https://opencode.ai/files/bin/2.0.20/opencode-desktop-linux-x86_64.AppImage",
+      "hash": "sha256-UJ5eU1qOekARfwExmtPFhzEBwL/rbwivS5oJm9V/1Do="
     },
     "aarch64-linux": {
-      "url": "https://opencode.ai/files/bin/2.0.19/opencode-desktop-linux-arm64.AppImage",
-      "hash": "sha256-WbsvgSVYVtYND+HjTFUtqcEsoig2o+BSUyvsS2YogFk="
+      "url": "https://opencode.ai/files/bin/2.0.20/opencode-desktop-linux-arm64.AppImage",
+      "hash": "sha256-qakrahuK6og/E4hExQ6AtdojczXdZJ3SqJ9/AGve3f4="
     }
   }
 }
