@@ -27,22 +27,40 @@ appimageTools.wrapType2 {
   extraPkgs = pkgs: [ pkgs.libsecret ];
 
   extraInstallCommands = ''
-    install -Dm444 ${appimageContents}/ai.opencode.desktop.desktop \
-      $out/share/applications/ai.opencode.desktop.desktop
-    sed -i -E \
-      -e 's|^Exec=.*|Exec=opencode-desktop %U|' \
-      -e 's|^Icon=.*|Icon=ai.opencode.desktop|' \
+    desktopFile=${appimageContents}/ai.opencode.desktop.desktop
+    install -Dm444 "$desktopFile" \
       $out/share/applications/ai.opencode.desktop.desktop
 
-    find ${appimageContents}/usr/share/icons/hicolor -type f -name 'ai.opencode.desktop.png' |
+    # Follow the icon name the upstream desktop entry actually declares instead
+    # of hardcoding a filename: 2.1.x renamed ai.opencode.desktop.png to
+    # ai.opencode.png, and upstream may rename it again.
+    iconName="$(sed -n 's|^Icon=||p' "$desktopFile" | head -n 1)"
+    if [ -z "$iconName" ]; then
+      echo "opencode-desktop: no Icon= entry in $desktopFile" >&2
+      exit 1
+    fi
+
+    sed -i -E \
+      -e 's|^Exec=.*|Exec=opencode-desktop %U|' \
+      -e "s|^Icon=.*|Icon=$iconName|" \
+      $out/share/applications/ai.opencode.desktop.desktop
+
+    largestIcon="$(find ${appimageContents}/usr/share/icons/hicolor \
+      -path '*/apps/*' -type f -name "$iconName.png" |
+      sort -V | tail -n 1)"
+    if [ -z "$largestIcon" ]; then
+      echo "opencode-desktop: no $iconName.png icons in the AppImage" >&2
+      exit 1
+    fi
+
+    find ${appimageContents}/usr/share/icons/hicolor \
+      -path '*/apps/*' -type f -name "$iconName.png" |
       while read -r icon; do
         rel=''${icon#${appimageContents}/usr/}
         install -Dm444 "$icon" "$out/$rel"
       done
 
-    install -Dm444 \
-      ${appimageContents}/usr/share/icons/hicolor/128x128/apps/ai.opencode.desktop.png \
-      $out/share/pixmaps/ai.opencode.desktop.png
+    install -Dm444 "$largestIcon" "$out/share/pixmaps/$iconName.png"
 
     # wrapType2 execs the binary and skips AppRun. The published desktop entry
     # always launches with --no-sandbox, and Electron registers opencode://
